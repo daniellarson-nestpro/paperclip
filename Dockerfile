@@ -47,6 +47,9 @@ FROM base AS build
 WORKDIR /app
 COPY --from=deps /app /app
 COPY . .
+# Bake in hermes-paperclip-adapter JWT injection (upstream `main` fix, unpublished in 0.3.0)
+# so hermes_local agents receive PAPERCLIP_API_KEY. Idempotent; no-op if already fixed.
+RUN node patch-hermes-adapter.cjs
 RUN pnpm --filter @paperclipai/ui build
 RUN pnpm --filter @paperclipai/plugin-sdk build
 RUN pnpm --filter @paperclipai/server build

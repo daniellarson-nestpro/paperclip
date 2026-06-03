@@ -1,0 +1,6 @@
+# Shell scripts and the container entrypoint MUST keep LF endings — CRLF breaks
+# the shebang at runtime ("No such file or directory"). Important on Windows checkouts.
+*.sh text eol=lf
+scripts/docker-entrypoint.sh text eol=lf
+Dockerfile text eol=lf
+Dockerfile.* text eol=lf

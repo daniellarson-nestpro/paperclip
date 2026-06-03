@@ -22,8 +22,10 @@ if [ "$(id -g node)" -ne "$PGID" ]; then
     changed=1
 fi
 
-if [ "$changed" = "1" ]; then
-    chown -R node:node /paperclip
-fi
+# Always reconcile ownership of the data dir before dropping privileges. When
+# /paperclip is a Railway/Docker volume it is mounted root-owned and masks the
+# image's chown, so the node user cannot create subdirs (e.g. instances/.../logs)
+# without this. Harmless once already node-owned.
+chown -R node:node /paperclip
 
 exec gosu node "$@"

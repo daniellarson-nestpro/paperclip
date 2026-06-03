@@ -36,6 +36,8 @@ server/src/**/*.js
 server/src/**/*.js.map
 server/src/**/*.d.ts
 server/src/**/*.d.ts.map
+# Source augmentation that must ship in builds (railway up filters by .gitignore)
+!server/src/types/express.d.ts
 tmp/
 feedback-export-*
 diagnostics/

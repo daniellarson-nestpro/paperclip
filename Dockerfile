@@ -67,6 +67,16 @@ RUN npm install --global --omit=dev @anthropic-ai/claude-code@latest @openai/cod
   && mkdir -p /paperclip \
   && chown node:node /paperclip
 
+# Install Hermes Agent (Python) so the hermes_local adapter has its `hermes`
+# runtime on PATH. Isolated venv + symlink to /usr/local/bin/hermes.
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends python3-venv python3-pip \
+  && python3 -m venv /opt/hermes-venv \
+  && /opt/hermes-venv/bin/pip install --no-cache-dir --upgrade pip \
+  && /opt/hermes-venv/bin/pip install --no-cache-dir "hermes-agent==0.15.2" \
+  && ln -sf /opt/hermes-venv/bin/hermes /usr/local/bin/hermes \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY scripts/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 

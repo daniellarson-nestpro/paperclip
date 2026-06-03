@@ -84,7 +84,8 @@ ENV NODE_ENV=production \
   PAPERCLIP_DEPLOYMENT_EXPOSURE=private \
   OPENCODE_ALLOW_ALL_MODELS=true
 
-VOLUME ["/paperclip"]
+# NOTE: `VOLUME` is unsupported on Railway's builder — persistence is provided by a
+# Railway Volume mounted at /paperclip on the service instead.
 EXPOSE 3100
 
 ENTRYPOINT ["docker-entrypoint.sh"]
